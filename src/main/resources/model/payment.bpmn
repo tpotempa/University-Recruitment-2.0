@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_0goqw8c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="2061c78" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="payment-process" name="Payment Process" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="UserTaskForm_3o8c0jp">{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.0.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "410a785"
+  },
+  "schemaVersion": 12,
+  "components": [
+    {
+      "text": "### Płatność",
+      "type": "text",
+      "id": "Field_1h0cmma",
+      "layout": {
+        "row": "Row_14wfova"
+      }
+    },
+    {
+      "label": "ID płatności",
+      "type": "textfield",
+      "id": "Field_15f2mch",
+      "key": "paymentId",
+      "layout": {
+        "row": "Row_02kyfwk"
+      }
+    },
+    {
+      "label": "Imię",
+      "type": "textfield",
+      "id": "Field_15y0t2i",
+      "key": "imie",
+      "layout": {
+        "row": "Row_1wm88qg"
+      }
+    },
+    {
+      "label": "CVC",
+      "type": "textfield",
+      "id": "Field_1e9jw8w",
+      "key": "cvc",
+      "layout": {
+        "row": "Row_0p0j8e0"
+      }
+    },
+    {
+      "label": "Nr karty płatniczej",
+      "type": "textfield",
+      "id": "Field_1mgf024",
+      "key": "cardNumber",
+      "layout": {
+        "row": "Row_1fuzs5b"
+      }
+    },
+    {
+      "label": "Data ważności",
+      "type": "textfield",
+      "id": "Field_0b0uhe3",
+      "key": "expiryDate",
+      "layout": {
+        "row": "Row_0sy99sy"
+      }
+    },
+    {
+      "label": "Saldo",
+      "type": "number",
+      "id": "Field_1omjkjo",
+      "key": "payerCredit",
+      "layout": {
+        "row": "Row_0od835x"
+      }
+    },
+    {
+      "label": "Do zapłaty",
+      "type": "number",
+      "id": "Field_1tupsu9",
+      "key": "openAmount",
+      "layout": {
+        "row": "Row_1qglghk"
+      }
+    },
+    {
+      "label": "Opłata rekrutacyjna",
+      "type": "number",
+      "id": "Field_1evmkgw",
+      "key": "recruitmentFee",
+      "layout": {
+        "row": "Row_176dokh"
+      }
+    },
+    {
+      "label": "Problem rozwiązany?",
+      "type": "checkbox",
+      "id": "Field_0kt1l21",
+      "key": "errorResolved",
+      "layout": {
+        "row": "Row_09f9p4k"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_CreditCardPayment"
+}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:sequenceFlow id="Flow_00c34by" sourceRef="StartEvent_PaymentRequired" targetRef="Activity_DeductCredit" />
+    <bpmn:exclusiveGateway id="Gateway_1gtbr66" name="Credit sufficient?">
+      <bpmn:incoming>Flow_1g6tjlr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vx65bh</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11svkm3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1g6tjlr" sourceRef="Activity_DeductCredit" targetRef="Gateway_1gtbr66" />
+    <bpmn:endEvent id="Event_PaymentCompleted" name="Payment completed">
+      <bpmn:incoming>Flow_1ypnlyy</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1vx65bh" name="Yes" sourceRef="Gateway_1gtbr66" targetRef="Gateway_1xcwh8l">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= openAmount = 0</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_11svkm3" name="No" sourceRef="Gateway_1gtbr66" targetRef="Gateway_12zkskj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= openAmount &gt; 0</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_1xcwh8l">
+      <bpmn:incoming>Flow_1vx65bh</bpmn:incoming>
+      <bpmn:incoming>Flow_0e64ocs</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f7fhbg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0f7fhbg" sourceRef="Gateway_1xcwh8l" targetRef="Activity_CompletePayment" />
+    <bpmn:sequenceFlow id="Flow_0e64ocs" sourceRef="Activity_ChargeCreditCard" targetRef="Gateway_1xcwh8l" />
+    <bpmn:serviceTask id="Activity_DeductCredit" name="Deduct credit">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="credit-deduction" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00c34by</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g6tjlr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_ChargeCreditCard" name="Charge credit card">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="credit-card-charging" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0rta0jr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e64ocs</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="StartEvent_PaymentRequired" name="Payment required">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_00c34by</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_01ijg3e" messageRef="Message_397t0vs" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1ypnlyy" sourceRef="Activity_CompletePayment" targetRef="Event_PaymentCompleted" />
+    <bpmn:sendTask id="Activity_CompletePayment" name="Complete payment">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="payment-completion" />
+        <zeebe:ioMapping>
+          <zeebe:input source="= paymentId" target="paymentId" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0f7fhbg</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ypnlyy</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:boundaryEvent id="Event_0r13ji3" name="Charging failed" attachedToRef="Activity_ChargeCreditCard">
+      <bpmn:outgoing>Flow_18lair3</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1wltmla" errorRef="Error_0rfhzkc" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_18lair3" sourceRef="Event_0r13ji3" targetRef="Activity_CheckFailedPaymentData" />
+    <bpmn:endEvent id="Event_PaymentFailed" name="Payment failed">
+      <bpmn:incoming>Flow_02epm6n</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_02epm6n" sourceRef="Activity_FailPayment" targetRef="Event_PaymentFailed" />
+    <bpmn:sendTask id="Activity_FailPayment" name="Fail payment">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="payment-completion" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=paymentId" target="paymentId" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mr0dhw</bpmn:incoming>
+      <bpmn:outgoing>Flow_02epm6n</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sequenceFlow id="Flow_1q3uq2m" sourceRef="Activity_CheckFailedPaymentData" targetRef="Gateway_0ljjng1" />
+    <bpmn:userTask id="Activity_CheckFailedPaymentData" name="Check failed payment data">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition assignee="accounting" />
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_3o8c0jp" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_18lair3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1q3uq2m</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0ljjng1" name="Resolvable?">
+      <bpmn:incoming>Flow_1q3uq2m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mr0dhw</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1rs1d6n</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0mr0dhw" name="No" sourceRef="Gateway_0ljjng1" targetRef="Activity_FailPayment">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= errorResolved = false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1rs1d6n" name="Yes" sourceRef="Gateway_0ljjng1" targetRef="Gateway_12zkskj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= errorResolved = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_12zkskj">
+      <bpmn:incoming>Flow_11svkm3</bpmn:incoming>
+      <bpmn:incoming>Flow_1rs1d6n</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rta0jr</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0rta0jr" sourceRef="Gateway_12zkskj" targetRef="Activity_ChargeCreditCard" />
+  </bpmn:process>
+  <bpmn:message id="Message_397t0vs" name="paymentRequestMessage" />
+  <bpmn:error id="Error_0rfhzkc" name="Charging failed" errorCode="creditCardChargeError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="payment-process">
+      <bpmndi:BPMNShape id="Gateway_1gtbr66_di" bpmnElement="Gateway_1gtbr66" isMarkerVisible="true">
+        <dc:Bounds x="425" y="105" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="409" y="81" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13154v2_di" bpmnElement="Event_PaymentCompleted">
+        <dc:Bounds x="1132" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1125" y="155" width="51" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1xcwh8l_di" bpmnElement="Gateway_1xcwh8l" isMarkerVisible="true">
+        <dc:Bounds x="745" y="105" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16d5s5f_di" bpmnElement="Activity_DeductCredit">
+        <dc:Bounds x="270" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0edsip6_di" bpmnElement="Activity_ChargeCreditCard">
+        <dc:Bounds x="600" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1okiu8a_di" bpmnElement="StartEvent_PaymentRequired">
+        <dc:Bounds x="179" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="154" y="155" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0w9wxx4_di" bpmnElement="Activity_CompletePayment">
+        <dc:Bounds x="980" y="90" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11wpei8_di" bpmnElement="Event_PaymentFailed">
+        <dc:Bounds x="1132" y="332" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1114" y="375" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_136bh01_di" bpmnElement="Activity_FailPayment">
+        <dc:Bounds x="980" y="310" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12xtf1w_di" bpmnElement="Activity_CheckFailedPaymentData">
+        <dc:Bounds x="690" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ljjng1_di" bpmnElement="Gateway_0ljjng1" isMarkerVisible="true">
+        <dc:Bounds x="855" y="325" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="849" y="301" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_12zkskj_di" bpmnElement="Gateway_12zkskj" isMarkerVisible="true">
+        <dc:Bounds x="515" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16sww9c_di" bpmnElement="Event_0r13ji3">
+        <dc:Bounds x="622" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="663" y="263" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_00c34by_di" bpmnElement="Flow_00c34by" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="215" y="130" />
+        <di:waypoint x="270" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g6tjlr_di" bpmnElement="Flow_1g6tjlr" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="370" y="130" />
+        <di:waypoint x="425" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vx65bh_di" bpmnElement="Flow_1vx65bh" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="475" y="130" />
+        <di:waypoint x="745" y="130" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="112" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11svkm3_di" bpmnElement="Flow_11svkm3" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="450" y="155" />
+        <di:waypoint x="450" y="210" />
+        <di:waypoint x="515" y="210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="462" y="173" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f7fhbg_di" bpmnElement="Flow_0f7fhbg" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="795" y="130" />
+        <di:waypoint x="980" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e64ocs_di" bpmnElement="Flow_0e64ocs" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="700" y="210" />
+        <di:waypoint x="770" y="210" />
+        <di:waypoint x="770" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ypnlyy_di" bpmnElement="Flow_1ypnlyy" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="1080" y="130" />
+        <di:waypoint x="1132" y="130" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18lair3_di" bpmnElement="Flow_18lair3" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="640" y="268" />
+        <di:waypoint x="640" y="350" />
+        <di:waypoint x="690" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02epm6n_di" bpmnElement="Flow_02epm6n" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="1080" y="350" />
+        <di:waypoint x="1132" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1q3uq2m_di" bpmnElement="Flow_1q3uq2m" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="790" y="350" />
+        <di:waypoint x="855" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mr0dhw_di" bpmnElement="Flow_0mr0dhw" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="905" y="350" />
+        <di:waypoint x="980" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="922" y="332" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rs1d6n_di" bpmnElement="Flow_1rs1d6n" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="880" y="375" />
+        <di:waypoint x="880" y="430" />
+        <di:waypoint x="540" y="430" />
+        <di:waypoint x="540" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="892" y="383" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rta0jr_di" bpmnElement="Flow_0rta0jr" bioc:stroke="#22242a" bioc:fill="#22242a">
+        <di:waypoint x="565" y="210" />
+        <di:waypoint x="600" y="210" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

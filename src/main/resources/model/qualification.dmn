@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_12fv933" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="a442b24" camunda:diagramRelationId="5dc833c3-ecec-4694-9a9e-7290072401d5" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <decision id="qualificationDecision" name="Candidate qualification">
+    <decisionTable id="DecisionTable_1f21oa3" hitPolicy="FIRST">
+      <input id="InputClause_1c4v86y" label="Olympic">
+        <inputExpression id="LiteralExpression_0c1975g" typeRef="boolean">
+          <text>olympic</text>
+        </inputExpression>
+      </input>
+      <input id="Input_1" label="Points" biodi:width="192">
+        <inputExpression id="InputExpression_1" typeRef="number">
+          <text>number(points)</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_19pdd61" label="Faculty" biodi:width="192">
+        <inputExpression id="LiteralExpression_06sz1cr" typeRef="string">
+          <text>faculty</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Decision" name="decision" typeRef="string" biodi:width="192" />
+      <rule id="DecisionRule_0g7mj8s">
+        <inputEntry id="UnaryTests_0l7y4ep">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jnn65d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m2jxx5">
+          <text>not ("lekarski")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nui9qi">
+          <text>"yes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u5x0gu">
+        <inputEntry id="UnaryTests_0k30edt">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08al9j5">
+          <text>&gt;=90</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0voh67x">
+          <text>"lekarski"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v0qts0">
+          <text>"yes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hi9t34">
+        <inputEntry id="UnaryTests_02vn70b">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1flpizs">
+          <text>&gt;=95</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xtki9q">
+          <text>"lekarski"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0d4ko59">
+          <text>"yes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15klxi0">
+        <inputEntry id="UnaryTests_15t6z05">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lipk79">
+          <text>&gt;=80</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mduok2">
+          <text>"informatyka"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lwj6qe">
+          <text>"yes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17dpksd">
+        <inputEntry id="UnaryTests_19c0lqy">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ikwmip">
+          <text>&gt;=60</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lw0n3c">
+          <text>"fizjoterapia"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bri40o">
+          <text>"yes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07sfds1">
+        <inputEntry id="UnaryTests_1wsws9g">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06by00j">
+          <text>&gt;=40</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0iaetgd">
+          <text>"administracja"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0td7ai5">
+          <text>"yes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f8jazg">
+        <inputEntry id="UnaryTests_0erju3j">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s8qyvi">
+          <text>&gt;=60</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p579tw">
+          <text>"psychologia"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1n8kic3">
+          <text>"exam"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qs3ar5">
+        <inputEntry id="UnaryTests_1g36otz">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fdowr8">
+          <text>&gt;=30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o38sdc">
+          <text>"grafika"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tc4317">
+          <text>"exam"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0niz8f9">
+        <inputEntry id="UnaryTests_1ovo6by">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sm0mjz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gs5461">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_098e9sh">
+          <text>"no"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="qualificationDecision">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

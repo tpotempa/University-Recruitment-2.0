@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="drd_RecruitmentFeeCalculation" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Web Modeler" exporterVersion="a442b24" camunda:diagramRelationId="5dc833c3-ecec-4694-9a9e-7290072401d5" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <decision id="recruitmentFeeCalculation" name="Recruitment fee calculation">
+    <decisionTable id="DecisionTable_1f21oa3" hitPolicy="FIRST">
+      <input id="InputClause_19pdd61" label="Faculty" biodi:width="192">
+        <inputExpression id="LiteralExpression_06sz1cr" typeRef="string">
+          <text>faculty</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Recruitment fee" name="recruitmentFee" typeRef="number" biodi:width="192" />
+      <rule id="DecisionRule_0u5x0gu">
+        <inputEntry id="UnaryTests_0voh67x">
+          <text>"lekarski"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v0qts0">
+          <text>85</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15klxi0">
+        <inputEntry id="UnaryTests_0mduok2">
+          <text>"informatyka"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lwj6qe">
+          <text>85</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17dpksd">
+        <inputEntry id="UnaryTests_0lw0n3c">
+          <text>"fizjoterapia"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bri40o">
+          <text>85</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07sfds1">
+        <inputEntry id="UnaryTests_0iaetgd">
+          <text>"administracja"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0td7ai5">
+          <text>85</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f8jazg">
+        <inputEntry id="UnaryTests_0p579tw">
+          <text>"psychologia"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1n8kic3">
+          <text>100</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qs3ar5">
+        <inputEntry id="UnaryTests_0o38sdc">
+          <text>"grafika"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tc4317">
+          <text>100</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0niz8f9">
+        <inputEntry id="UnaryTests_1gs5461">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_098e9sh">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="recruitmentFeeCalculation">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,102 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.0.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "410a785"
+  },
+  "schemaVersion": 12,
+  "components": [
+    {
+      "text": "### Płatność",
+      "type": "text",
+      "id": "Field_1h0cmma",
+      "layout": {
+        "row": "Row_14wfova"
+      }
+    },
+    {
+      "label": "ID płatności",
+      "type": "textfield",
+      "id": "Field_15f2mch",
+      "key": "paymentId",
+      "layout": {
+        "row": "Row_02kyfwk"
+      }
+    },
+    {
+      "label": "Imię",
+      "type": "textfield",
+      "id": "Field_15y0t2i",
+      "key": "imie",
+      "layout": {
+        "row": "Row_1wm88qg"
+      }
+    },
+    {
+      "label": "CVC",
+      "type": "textfield",
+      "id": "Field_1e9jw8w",
+      "key": "cvc",
+      "layout": {
+        "row": "Row_0p0j8e0"
+      }
+    },
+    {
+      "label": "Nr karty płatniczej",
+      "type": "textfield",
+      "id": "Field_1mgf024",
+      "key": "cardNumber",
+      "layout": {
+        "row": "Row_1fuzs5b"
+      }
+    },
+    {
+      "label": "Data ważności",
+      "type": "textfield",
+      "id": "Field_0b0uhe3",
+      "key": "expiryDate",
+      "layout": {
+        "row": "Row_0sy99sy"
+      }
+    },
+    {
+      "label": "Saldo",
+      "type": "number",
+      "id": "Field_1omjkjo",
+      "key": "payerCredit",
+      "layout": {
+        "row": "Row_0od835x"
+      }
+    },
+    {
+      "label": "Do zapłaty",
+      "type": "number",
+      "id": "Field_1tupsu9",
+      "key": "openAmount",
+      "layout": {
+        "row": "Row_1qglghk"
+      }
+    },
+    {
+      "label": "Opłata rekrutacyjna",
+      "type": "number",
+      "id": "Field_1evmkgw",
+      "key": "recruitmentFee",
+      "layout": {
+        "row": "Row_176dokh"
+      }
+    },
+    {
+      "label": "Problem rozwiązany?",
+      "type": "checkbox",
+      "id": "Field_0kt1l21",
+      "key": "errorResolved",
+      "layout": {
+        "row": "Row_09f9p4k"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_CreditCardPayment"
+}
